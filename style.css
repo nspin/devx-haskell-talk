@@ -15,6 +15,26 @@ div.level1 {
     margin: auto;
 }
 
+div.middle > p {
+    margin: auto;
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+div.middle {
+    text-align: center;
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    margin: auto;
+}
+
+
 /*
  * div.level1 > h1 {
  *     text-align: center;

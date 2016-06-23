@@ -15,3 +15,17 @@ Slide contents
 
 ...
 ```
+
+*Note:* To make lists incremental, put them in block quotes:
+
+```
+> - foo
+> - bar
+```
+
+instead of
+
+```
+- foo
+- bar
+```

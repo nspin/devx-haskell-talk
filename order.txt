@@ -1,3 +1,7 @@
-some_section.md
-other_part.md
-another_one.md
+intro.md
+history.md
+foundations.md
+language_overview.md
+real_world.md
+abstractions.md
+conclusion.md

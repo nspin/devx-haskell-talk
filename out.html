@@ -63,31 +63,406 @@ Kathy Chen<br/>Nick Spinale
   </p>
   <p class="date">June 26, 2016</p>
 </div>
-<div id="some-section" class="titleslide slide section level1"><h1>Some Section</h1></div><div id="first-slide-here" class="slide section level2">
-<h1>First Slide Here</h1>
-<ul>
-<li>Some</li>
-<li>Bullets</li>
+<div id="goals" class="slide section level2">
+<h1>Goals</h1>
+</div>
+<div id="history" class="titleslide slide section level1"><h1>History</h1></div><div id="real-world" class="slide section level2">
+<h1>Real world</h1>
+<ul class="incremental">
+<li>Writing stable software is hard</li>
+<li>Approach to computation tied to hardware</li>
+<li>...</li>
+<li>Lisp</li>
 </ul>
-</div><div id="other-slide" class="slide section level2">
-<h1>Other Slide</h1>
-<p>This is some code</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
-main <span class="fu">=</span> putStrLn <span class="st">&quot;Hello World\n&quot;</span></code></pre></div>
+</div><div id="academia" class="slide section level2">
+<h1>Academia</h1>
+<ul class="incremental">
+<li>Lambda calculus</li>
+<li>Miranda</li>
+<li>Common language for papers</li>
+<li>FPCA '87</li>
+<li>Haskell 1.0</li>
+<li>Haskell 98</li>
+<li>Haskell 2010</li>
+</ul>
 </div>
-<div id="other-part" class="titleslide slide section level1"><h1>Other part</h1></div><div id="code-in-title" class="slide section level2">
-<h1><code>Code</code> in title</h1>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">words <span class="fu">=</span> [<span class="st">&quot;piece&quot;</span>, <span class="st">&quot;of&quot;</span>, <span class="st">&quot;code&quot;</span>, <span class="st">&quot;that&quot;</span>, <span class="st">&quot;wraps&quot;</span>, <span class="st">&quot;and&quot;</span>, <span class="st">&quot;keeps&quot;</span>, <span class="st">&quot;on&quot;</span>, <span class="st">&quot;going&quot;</span>, <span class="st">&quot;hopefully&quot;</span>, <span class="st">&quot;on&quot;</span>, <span class="st">&quot;the&quot;</span>, <span class="st">&quot;next&quot;</span>, <span class="st">&quot;line&quot;</span>]</code></pre></div>
-</div><div id="bold-and-italics-in-title" class="slide section level2">
-<h1><strong>Bold</strong> and <em>italics</em> in title</h1>
-<!-- just a comment -->
-</div>
-<div id="another-one" class="titleslide slide section level1"><h1>Another One</h1></div><div id="this-has-gone-too-far" class="slide section level2">
-<h1>This has gone too far</h1>
-<p>A paragraph that wraps. A paragraph that wraps. A paragraph that wraps. A paragraph that wraps. A paragraph that wraps. A paragraph that wraps. A paragraph that wraps.</p>
-</div><div class="slide section level2">
+<div id="foundations" class="titleslide slide section level1"><h1>Foundations</h1></div><div id="system-fc" class="slide section level2">
+<h1>System FC</h1>
+<div class="figure">
+<img src="images/core_spec.png" />
 
-<p>This slide has no title.</p>
 </div>
+</div><div id="lambda-cube" class="slide section level2">
+<h1>Lambda cube</h1>
+<div class="figure">
+<img src="images/lambda_cube.png" />
+
+</div>
+</div><div id="lambda-cube-1" class="slide section level2">
+<h1>Lambda cube</h1>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="co">-- Proof of left multiplicative distributivity of additive inverse in a ring</span>
+
+-‿*-distribˡ <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> - x * y ≈ - <span class="ot">(</span>x * y<span class="ot">)</span>
+-‿*-distribˡ x y <span class="ot">=</span> begin
+  - x * y                        ≈⟨ sym $ proj₂ +-identity <span class="ot">_</span> ⟩
+  - x * y + 0#                   ≈⟨ refl ⟨ +-cong ⟩ sym <span class="ot">(</span>proj₂ -‿inverse <span class="ot">_)</span> ⟩
+  - x * y + <span class="ot">(</span>x * y + - <span class="ot">(</span>x * y<span class="ot">))</span>  ≈⟨ sym $ +-assoc <span class="ot">_</span> <span class="ot">_</span> <span class="ot">_</span>  ⟩
+  - x * y + x * y + - <span class="ot">(</span>x * y<span class="ot">)</span>    ≈⟨ sym <span class="ot">(</span>proj₂ distrib <span class="ot">_</span> <span class="ot">_</span> <span class="ot">_)</span> ⟨ +-cong ⟩ refl ⟩
+  <span class="ot">(</span>- x + x<span class="ot">)</span> * y + - <span class="ot">(</span>x * y<span class="ot">)</span>      ≈⟨ <span class="ot">(</span>proj₁ -‿inverse <span class="ot">_</span> ⟨ *-cong ⟩ refl<span class="ot">)</span>
+                                      ⟨ +-cong ⟩
+                                    refl ⟩
+  0# * y + - <span class="ot">(</span>x * y<span class="ot">)</span>             ≈⟨ proj₁ zero <span class="ot">_</span> ⟨ +-cong ⟩ refl ⟩
+  0# + - <span class="ot">(</span>x * y<span class="ot">)</span>                 ≈⟨ proj₁ +-identity <span class="ot">_</span> ⟩
+  - <span class="ot">(</span>x * y<span class="ot">)</span>                      ∎</code></pre></div>
+</div><div id="lambda-cube-2" class="slide section level2">
+<h1>Lambda cube</h1>
+<p>Oops</p>
+</div>
+<div id="language-overview" class="titleslide slide section level1"><h1>Language Overview</h1></div><div id="program-structure" class="slide section level2">
+<h1>Program structure</h1>
+<p>Top-level statements</p>
+</div><div id="program-structure-1" class="slide section level2">
+<h1>Program structure</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Color</span> <span class="fu">=</span> <span class="dt">Red</span> <span class="fu">|</span> <span class="dt">Orange</span> <span class="fu">|</span> <span class="dt">Yellow</span> <span class="fu">|</span> <span class="dt">Green</span></code></pre></div>
+</div><div id="program-structure-2" class="slide section level2">
+<h1>Program structure</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Color</span> <span class="fu">=</span> <span class="dt">Red</span> <span class="fu">|</span> <span class="dt">Orange</span> <span class="fu">|</span> <span class="dt">Yellow</span> <span class="fu">|</span> <span class="dt">Green</span>
+
+<span class="kw">data</span> <span class="dt">Shape</span> <span class="fu">=</span> <span class="dt">Circle</span> <span class="dt">Int</span> <span class="fu">|</span> <span class="dt">Rectangle</span> <span class="dt">Int</span> <span class="dt">Int</span></code></pre></div>
+</div><div id="program-structure-3" class="slide section level2">
+<h1>Program structure</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Color</span> <span class="fu">=</span> <span class="dt">Red</span> <span class="fu">|</span> <span class="dt">Orange</span> <span class="fu">|</span> <span class="dt">Yellow</span> <span class="fu">|</span> <span class="dt">Green</span>
+
+<span class="kw">data</span> <span class="dt">Shape</span> <span class="fu">=</span> <span class="dt">Circle</span> <span class="dt">Int</span> <span class="fu">|</span> <span class="dt">Rectangle</span> <span class="dt">Int</span> <span class="dt">Int</span>
+
+<span class="kw">data</span> <span class="dt">Graphic</span> <span class="fu">=</span> <span class="dt">Graphic</span> <span class="dt">Color</span> <span class="dt">Shape</span></code></pre></div>
+</div><div id="program-structure-4" class="slide section level2">
+<h1>Program structure</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Color</span> <span class="fu">=</span> <span class="dt">Red</span> <span class="fu">|</span> <span class="dt">Orange</span> <span class="fu">|</span> <span class="dt">Yellow</span> <span class="fu">|</span> <span class="dt">Green</span>
+
+<span class="kw">data</span> <span class="dt">Shape</span> <span class="fu">=</span> <span class="dt">Circle</span> <span class="dt">Int</span> <span class="fu">|</span> <span class="dt">Rectangle</span> <span class="dt">Int</span> <span class="dt">Int</span>
+
+<span class="kw">data</span> <span class="dt">Graphic</span> <span class="fu">=</span> <span class="dt">Graphic</span> <span class="dt">Color</span> <span class="dt">Shape</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">favoriteColor ::</span> <span class="dt">Color</span>
+favoriteColor <span class="fu">=</span> <span class="dt">Green</span>
+
+<span class="ot">tennisBall ::</span> <span class="dt">Graphic</span>
+tennisBall <span class="fu">=</span> <span class="dt">Graphic</span> favoriteColor (<span class="dt">Circle</span> <span class="dv">12</span>)</code></pre></div>
+</div><div id="program-structure-5" class="slide section level2">
+<h1>Program structure</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Color</span> <span class="fu">=</span> <span class="dt">Red</span> <span class="fu">|</span> <span class="dt">Orange</span> <span class="fu">|</span> <span class="dt">Yellow</span> <span class="fu">|</span> <span class="dt">Green</span>
+
+<span class="kw">data</span> <span class="dt">Shape</span> <span class="fu">=</span> <span class="dt">Circle</span> <span class="dt">Int</span> <span class="fu">|</span> <span class="dt">Rectangle</span> <span class="dt">Int</span> <span class="dt">Int</span>
+
+<span class="kw">data</span> <span class="dt">Graphic</span> <span class="fu">=</span> <span class="dt">Graphic</span> <span class="dt">Color</span> <span class="dt">Shape</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">nameOf ::</span> <span class="dt">Color</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+nameOf <span class="dt">Red</span>    <span class="fu">=</span> <span class="st">&quot;red&quot;</span>
+nameOf <span class="dt">Orange</span> <span class="fu">=</span> <span class="st">&quot;orange&quot;</span>
+nameOf <span class="dt">Yellow</span> <span class="fu">=</span> <span class="st">&quot;yellow&quot;</span>
+nameOf <span class="dt">Green</span>  <span class="fu">=</span> <span class="st">&quot;green&quot;</span></code></pre></div>
+</div><div id="program-structure-6" class="slide section level2">
+<h1>Program structure</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Color</span> <span class="fu">=</span> <span class="dt">Red</span> <span class="fu">|</span> <span class="dt">Orange</span> <span class="fu">|</span> <span class="dt">Yellow</span> <span class="fu">|</span> <span class="dt">Green</span>
+
+<span class="kw">data</span> <span class="dt">Shape</span> <span class="fu">=</span> <span class="dt">Circle</span> <span class="dt">Int</span> <span class="fu">|</span> <span class="dt">Rectangle</span> <span class="dt">Int</span> <span class="dt">Int</span>
+
+<span class="kw">data</span> <span class="dt">Graphic</span> <span class="fu">=</span> <span class="dt">Graphic</span> <span class="dt">Color</span> <span class="dt">Shape</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">nameOf ::</span> <span class="dt">Color</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+nameOf <span class="dt">Red</span>    <span class="fu">=</span> <span class="st">&quot;red&quot;</span>
+nameOf <span class="dt">Orange</span> <span class="fu">=</span> <span class="st">&quot;orange&quot;</span>
+nameOf <span class="dt">Yellow</span> <span class="fu">=</span> <span class="st">&quot;yellow&quot;</span>
+nameOf <span class="dt">Green</span>  <span class="fu">=</span> <span class="st">&quot;green&quot;</span>
+
+<span class="ot">describe ::</span> <span class="dt">Graphic</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+describe (<span class="dt">Graphic</span> color shape) isCool <span class="fu">=</span> nameOf color <span class="fu">++</span> <span class="st">&quot; &quot;</span> <span class="fu">++</span> shapeDescription <span class="fu">++</span> punctuation
+  <span class="kw">where</span>
+    punctuation <span class="fu">=</span> <span class="kw">if</span> isCool <span class="kw">then</span> <span class="st">&quot;!&quot;</span> <span class="kw">else</span> <span class="st">&quot;&quot;</span>
+    shapeDescription <span class="fu">=</span> <span class="kw">case</span> shape <span class="kw">of</span>
+        <span class="dt">Circle</span> radius <span class="ot">-&gt;</span> <span class="st">&quot;circle with a radius of &quot;</span> <span class="fu">++</span> show radius
+        <span class="dt">Rectangle</span> height width <span class="ot">-&gt;</span> show height <span class="fu">++</span> <span class="st">&quot;x&quot;</span> <span class="fu">++</span> show width <span class="fu">++</span> <span class="st">&quot; rectangle&quot;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">(++) ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+show<span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span></code></pre></div>
+</div><div id="program-structure-7" class="slide section level2">
+<h1>Program structure</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Color</span> <span class="fu">=</span> <span class="dt">Red</span> <span class="fu">|</span> <span class="dt">Orange</span> <span class="fu">|</span> <span class="dt">Yellow</span> <span class="fu">|</span> <span class="dt">Green</span>
+
+<span class="kw">data</span> <span class="dt">Shape</span> <span class="fu">=</span> <span class="dt">Circle</span> <span class="dt">Int</span> <span class="fu">|</span> <span class="dt">Rectangle</span> <span class="dt">Int</span> <span class="dt">Int</span>
+
+<span class="kw">data</span> <span class="dt">Graphic</span> <span class="fu">=</span> <span class="dt">Graphic</span> <span class="dt">Color</span> <span class="dt">Shape</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">nameOf ::</span> <span class="dt">Color</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+nameOf <span class="dt">Red</span>    <span class="fu">=</span> <span class="st">&quot;red&quot;</span>
+nameOf <span class="dt">Orange</span> <span class="fu">=</span> <span class="st">&quot;orange&quot;</span>
+nameOf <span class="dt">Yellow</span> <span class="fu">=</span> <span class="st">&quot;yellow&quot;</span>
+nameOf <span class="dt">Green</span>  <span class="fu">=</span> <span class="st">&quot;green&quot;</span>
+
+<span class="ot">describe ::</span> <span class="dt">Graphic</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+describe (<span class="dt">Graphic</span> color shape) isCool <span class="fu">=</span> nameOf color <span class="fu">++</span> <span class="st">&quot; &quot;</span> <span class="fu">++</span> shapeDescription <span class="fu">++</span> punctuation
+  <span class="kw">where</span>
+    punctuation <span class="fu">=</span> <span class="kw">if</span> isCool <span class="kw">then</span> <span class="st">&quot;!&quot;</span> <span class="kw">else</span> <span class="st">&quot;&quot;</span>
+    shapeDescription <span class="fu">=</span> <span class="kw">case</span> shape <span class="kw">of</span>
+        <span class="dt">Circle</span> radius <span class="ot">-&gt;</span> <span class="st">&quot;circle with a radius of &quot;</span> <span class="fu">++</span> show radius
+        <span class="dt">Rectangle</span> height width <span class="ot">-&gt;</span> show height <span class="fu">++</span> <span class="st">&quot;x&quot;</span> <span class="fu">++</span> show width <span class="fu">++</span> <span class="st">&quot; rectangle&quot;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">&gt;&gt;&gt;</span> <span class="kw">describe</span> tennisBall True
+<span class="st">&quot;green circle with a radius of 12!&quot;</span>
+<span class="kw">&gt;&gt;&gt;</span> <span class="kw">describe</span> (Graphic Orange (Rectangle 3 7)) <span class="kw">False</span>
+<span class="st">&quot;orange 3x7 rectangle&quot;</span></code></pre></div>
+</div><div id="properties" class="slide section level2">
+<h1>Properties</h1>
+<ul class="incremental">
+<li>Statically typed</li>
+<li>Purely functional</li>
+<li>Lazy</li>
+</ul>
+<!--
+type-level
+value-level
+
+optional type signatures
+pattern = expression
+'where' and similar constructs
+-->
+</div><div id="statically-typed" class="slide section level2">
+<h1>Statically typed</h1>
+<ul class="incremental">
+<li>Types of all values and expressions determined and checked at compile time</li>
+<li>Eliminates large class of run-time errors</li>
+<li>Useful for documentation</li>
+<li>Type inference</li>
+<li>Powerful type system</li>
+</ul>
+</div><div id="statically-typed-1" class="slide section level2">
+<h1>Statically typed</h1>
+<p>Higher-order polymorphism</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">all<span class="ot"> ::</span> <span class="dt">Foldable</span> t <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
+<!--
+type-level variable
+-->
+</div><div id="functional" class="slide section level2">
+<h1>Functional</h1>
+<ul class="incremental">
+<li>Functions are first-class values</li>
+<li>Higher-order functions</li>
+<li>Currying</li>
+<li>Tacit programming</li>
+<li>Expressive</li>
+</ul>
+</div><div id="functional-1" class="slide section level2">
+<h1>Functional</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">filter<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]
+filter _ [] <span class="fu">=</span> []
+filter pred (x<span class="fu">:</span>xs) <span class="fu">=</span> <span class="kw">if</span> pred x <span class="kw">then</span> x<span class="fu">:</span>ys <span class="kw">else</span> ys
+  <span class="kw">where</span>
+    ys <span class="fu">=</span> filter pred xs</code></pre></div>
+<!--
+list syntax
+-->
+</div><div id="pure" class="slide section level2">
+<h1>Pure</h1>
+<ul class="incremental">
+<li>Referential transparency</li>
+<li>Think table lookup</li>
+<li>Easy to test, reason about, and even prove the correctness of code</li>
+<li>Allows for heavy optimization</li>
+</ul>
+<!-- if compiles, runs -->
+</div><div id="pure-1" class="slide section level2">
+<h1>Pure</h1>
+<p>No loops</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">sum<span class="ot"> ::</span> [<span class="dt">Int</span>] <span class="ot">-&gt;</span> <span class="dt">Int</span>
+sum [] <span class="fu">=</span> <span class="dv">0</span>
+sum (x<span class="fu">:</span>xs) <span class="fu">=</span> x <span class="fu">+</span> sum xs</code></pre></div>
+<!--
+must use recursion, but doesn't have to be explicit
+shared structure between data
+-->
+</div><div id="lazy" class="slide section level2">
+<h1>Lazy</h1>
+<ul class="incremental">
+<li>Thunks</li>
+<li>Possible because of purity</li>
+</ul>
+</div><div id="lazy-1" class="slide section level2">
+<h1>Lazy</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">zeros ::</span> [<span class="dt">Int</span>]
+zeros <span class="fu">=</span> <span class="dv">0</span> <span class="fu">:</span> zeros</code></pre></div>
+</div><div id="lazy-2" class="slide section level2">
+<h1>Lazy</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">zeros ::</span> [<span class="dt">Int</span>]
+zeros <span class="fu">=</span> <span class="dv">0</span> <span class="fu">:</span> zeros</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mystery ::</span> <span class="dt">Shape</span>
+mystery <span class="fu">=</span> <span class="dt">Circle</span> (<span class="dv">1</span> <span class="fu">/</span> <span class="dv">0</span>)</code></pre></div>
+</div>
+<div id="into-the-real-world" class="titleslide slide section level1"><h1>Into the real world</h1></div><div id="section" class="slide section level2 middle">
+<h1></h1>
+<p>What is a program without effects?</p>
+</div><div id="implicit-state" class="slide section level2">
+<h1>Implicit state</h1>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> make_password(<span class="dt">int</span> n, <span class="dt">char</span> *buf) {
+    <span class="kw">while</span> (n-- &gt; <span class="dv">0</span>) {
+        buf[n] = &#39;a&#39; + rand() % <span class="dv">26</span>;
+    }
+}</code></pre></div>
+</div><div id="explicit-state" class="slide section level2">
+<h1>Explicit state</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">Gen</span> <span class="ot">-&gt;</span> (a, <span class="dt">Gen</span>)</code></pre></div>
+</div><div id="explicit-state-1" class="slide section level2">
+<h1>Explicit state</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">Gen</span> <span class="ot">-&gt;</span> (a, <span class="dt">Gen</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
+randInt g <span class="fu">=</span> (r <span class="fu">.&amp;.</span> <span class="bn">0x4FFFFFFF</span>, r <span class="fu">.&amp;.</span> <span class="bn">0x1FFFFFFF</span>)
+  <span class="kw">where</span>
+    r <span class="fu">=</span> a <span class="fu">*</span> g <span class="fu">+</span> c 
+    a <span class="fu">=</span> <span class="dv">1103515245</span>
+    c <span class="fu">=</span> <span class="dv">12345</span>
+
+<span class="kw">type</span> <span class="dt">Gen</span> <span class="fu">=</span> <span class="dt">Int</span></code></pre></div>
+</div><div id="explicit-state-2" class="slide section level2">
+<h1>Explicit state</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">Gen</span> <span class="ot">-&gt;</span> (a, <span class="dt">Gen</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randChar ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
+randChar g <span class="fu">=</span> (c, g&#39;)
+  <span class="kw">where</span>
+    (i, g&#39;) <span class="fu">=</span> rand g
+    c <span class="fu">=</span> chr (i <span class="fu">+</span> ord <span class="ch">&#39;a&#39;</span>)</code></pre></div>
+</div><div id="explicit-state-3" class="slide section level2">
+<h1>Explicit state</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">Gen</span> <span class="ot">-&gt;</span> (a, <span class="dt">Gen</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
+<span class="ot">randChar ::</span> <span class="dt">Random</span> <span class="dt">Char</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span>
+randPassword <span class="dv">0</span> g <span class="fu">=</span> ([]  , g  )
+randPassword n g <span class="fu">=</span> (c<span class="fu">:</span>cs, g&#39;&#39;)
+  <span class="kw">where</span>
+    (c , g&#39; ) <span class="fu">=</span> randChar g
+    (cs, g&#39;&#39;) <span class="fu">=</span> randPassword (n <span class="fu">-</span> <span class="dv">1</span>) g&#39;</code></pre></div>
+</div><div id="explicit-state-4" class="slide section level2">
+<h1>Explicit state</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">Gen</span> <span class="ot">-&gt;</span> (a, <span class="dt">Gen</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
+<span class="ot">randChar ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
+<span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span></code></pre></div>
+</div><div id="the-real-world" class="slide section level2">
+<h1>The real world</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Universe</span></code></pre></div>
+</div><div id="the-real-world-1" class="slide section level2">
+<h1>The real world</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Universe</span>
+
+<span class="kw">type</span> <span class="dt">IO</span> a <span class="fu">=</span> <span class="dt">Universe</span> <span class="ot">-&gt;</span> (a, <span class="dt">Universe</span>)</code></pre></div>
+</div><div id="the-real-world-2" class="slide section level2">
+<h1>The real world</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Universe</span>
+
+<span class="kw">type</span> <span class="dt">IO</span> a <span class="fu">=</span> <span class="dt">Universe</span> <span class="ot">-&gt;</span> (a, <span class="dt">Universe</span>)
+
+getChar<span class="ot"> ::</span> <span class="dt">IO</span> <span class="dt">Char</span></code></pre></div>
+</div><div id="the-real-world-3" class="slide section level2">
+<h1>The real world</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Universe</span>
+
+<span class="kw">type</span> <span class="dt">IO</span> a <span class="fu">=</span> <span class="dt">Universe</span> <span class="ot">-&gt;</span> (a, <span class="dt">Universe</span>)
+
+getChar<span class="ot"> ::</span> <span class="dt">IO</span> <span class="dt">Char</span>
+print<span class="ot">   ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre></div>
+</div><div id="the-real-world-according-to-ghc" class="slide section level2">
+<h1>The real world according to GHC</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- | @State#@ is the primitive, unlifted type of states. It has</span>
+<span class="co">--         one type parameter, thus @State# RealWorld@, or @State# s@,</span>
+<span class="co">--         where s is a type variable. The only purpose of the type parameter</span>
+<span class="co">--         is to keep different state threads separate. It is represented by</span>
+<span class="co">--         nothing at all. </span>
+
+<span class="kw">data</span> <span class="dt">State</span><span class="fu">#</span> s
+
+<span class="co">-- | @RealWorld@ is deeply magical. It is /primitive/, but it is not</span>
+<span class="co">--         /unlifted/ (hence @ptrArg@). We never manipulate values of type</span>
+<span class="co">--         @RealWorld@; it&#39;s only used in the type system, to parameterise</span>
+<span class="co">--         @State#@. </span>
+
+<span class="kw">data</span> <span class="dt">RealWorld</span></code></pre></div>
+</div><div id="the-real-world-according-to-ghc-1" class="slide section level2">
+<h1>The real world according to GHC</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Universe</span> <span class="fu">=</span> <span class="dt">State</span><span class="fu">#</span> <span class="dt">RealWorld</span>
+
+<span class="kw">type</span> <span class="dt">IO</span> a <span class="fu">=</span> <span class="dt">Universe</span> <span class="ot">-&gt;</span> (a, <span class="dt">Universe</span>)
+
+getChar<span class="ot"> ::</span> <span class="dt">IO</span> <span class="dt">Char</span>
+print<span class="ot">   ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre></div>
+</div>
+<div id="abstractions" class="titleslide slide section level1"><h1>Abstractions</h1></div><div id="manually-explicit-threading-state" class="slide section level2">
+<h1>Manually explicit threading state</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">Gen</span> <span class="ot">-&gt;</span> (a, <span class="dt">Gen</span>)</code></pre></div>
+</div><div id="manually-explicit-threading-state-1" class="slide section level2">
+<h1>Manually explicit threading state</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">Gen</span> <span class="ot">-&gt;</span> (a, <span class="dt">Gen</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
+
+<span class="ot">randChar ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
+randChar g <span class="fu">=</span> (c, g&#39;)
+  <span class="kw">where</span>
+    (i, g&#39;) <span class="fu">=</span> rand g
+    c <span class="fu">=</span> chr (i <span class="fu">+</span> ord <span class="ch">&#39;a&#39;</span>)
+
+<span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span>
+randPassword <span class="dv">0</span> g <span class="fu">=</span> ([]  , g  )
+randPassword n g <span class="fu">=</span> (c<span class="fu">:</span>cs, g&#39;&#39;)
+  <span class="kw">where</span>
+    (c , g&#39; ) <span class="fu">=</span> randChar g
+    (cs, g&#39;&#39;) <span class="fu">=</span> randPassword (n <span class="fu">-</span> <span class="dv">1</span>) g&#39;</code></pre></div>
+</div><div id="using-common-abstractions" class="slide section level2">
+<h1>Using common abstractions</h1>
+<p>Don't focus on the 'M' word</p>
+</div><div id="using-common-abstractions-1" class="slide section level2">
+<h1>Using common abstractions</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Monad</span> (fmap, replicateM)
+<span class="kw">import </span><span class="dt">Control.Monad.State.Lazy</span> (<span class="dt">State</span>)
+
+<span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">State</span> <span class="dt">Gen</span> a</code></pre></div>
+</div><div id="using-common-abstractions-2" class="slide section level2">
+<h1>Using common abstractions</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Monad</span> (fmap, replicateM)
+<span class="kw">import </span><span class="dt">Control.Monad.State.Lazy</span> (<span class="dt">State</span>)
+
+<span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">State</span> <span class="dt">Gen</span> a</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
+
+<span class="ot">randChar ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
+randChar <span class="fu">=</span> fmap toAlph randInt
+  <span class="kw">where</span>
+    toAlph i <span class="fu">=</span> chr (i <span class="fu">+</span> ord <span class="ch">&#39;a&#39;</span>)
+
+<span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span>
+randPassword n <span class="fu">=</span> replicateM n randChar</code></pre></div>
+</div><div id="they-are-awesome" class="slide section level2">
+<h1>They are awesome</h1>
+<!-- TODO intriguing but tame example (e.g. using forall a. Applicative ((->) a)) -->
+</div><div id="they-are-not-that-special" class="slide section level2">
+<h1>They are not <em>that</em> special</h1>
+<p>You are familiar with this concept</p>
+<ul class="incremental">
+<li>Java/C# <code>interface</code></li>
+<li>C++ <code>virtual</code></li>
+<li>Scala <code>implicits</code></li>
+</ul>
+<p>More powerful type system allows for more powerful abstractions</p>
+<ul class="incremental">
+<li>Haskell <code>typeclass</code></li>
+</ul>
+</div><div id="section-1" class="slide section level2 middle">
+<h1></h1>
+<p><em>One</em> of them is called <code>Monad</code></p>
+</div>
+<div id="moving-forward" class="titleslide slide section level1"><h1>Moving forward</h1></div><div id="where-to-look" class="slide section level2">
+<h1>Where to look</h1>
+<ul class="incremental">
+<li>Course material: <a href="http://www.seas.upenn.edu/~cis552/schedule.html">UPenn cis552</a></li>
+<li>Old school: <a href="https://www.haskell.org/tutorial/">haskell.org/tutorial</a></li>
+<li>Free books: <a href="http://learnyouahaskell.com/chapters">Learn You a Haskell for Great Good</a>, <a href="http://pv.bstu.ru/flp/RealWorldHaskell.pdf">Real World Haskell</a></li>
+<li>The source: <a href="https://hackage.haskell.org/package/base"><code>base</code></a> (<code>Data.List</code>, <code>Data.Maybe</code>)</li>
+<li>Us</li>
+</ul>
+</div>
+<div id="questions" class="titleslide slide section level1"><h1>Questions</h1></div>
 </body>
 </html>
