@@ -1,0 +1,9 @@
+#!/bin/sh
+(
+    cat frontmatter.yaml
+    while read section; do
+        echo
+        echo
+        cat "sections/$section.md"
+    done < order.txt
+) | pandoc -f markdown -t slidy --template=slidy.template --css=style.css > out.html
