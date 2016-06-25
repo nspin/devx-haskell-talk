@@ -2,6 +2,7 @@ intro.md
 history.md
 foundations.md
 language_overview.md
+interactive.md
 real_world.md
 abstractions.md
 conclusion.md
