@@ -52,7 +52,7 @@ randChar :: Random Char
 randChar g = (c, g')
   where
     (i, g') = rand g
-    c = chr (i + ord 'a')
+    c = chr (mod i 26 + ord 'a')
 ```
 
 ## Explicit state
@@ -119,7 +119,7 @@ type Universe
 type IO a = Universe -> (a, Universe)
 
 getChar :: IO Char
-print   :: String -> IO ()
+putStrLn :: String -> IO ()
 ```
 
 ## The real world according to GHC

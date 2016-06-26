@@ -81,10 +81,9 @@ nameOf Orange = "orange"
 nameOf Yellow = "yellow"
 nameOf Green  = "green"
 
-describe :: Graphic -> Bool -> String
-describe (Graphic color shape) isCool = nameOf color ++ " " ++ shapeDescription ++ punctuation
+describe :: Graphic -> String
+describe (Graphic color shape) isCool = nameOf color ++ " " ++ shapeDescription
   where
-    punctuation = if isCool then "!" else ""
     shapeDescription = case shape of
         Circle radius -> "circle with a radius of " ++ show radius
         Rectangle height width -> show height ++ "x" ++ show width ++ " rectangle"
@@ -112,19 +111,18 @@ nameOf Orange = "orange"
 nameOf Yellow = "yellow"
 nameOf Green  = "green"
 
-describe :: Graphic -> Bool -> String
-describe (Graphic color shape) isCool = nameOf color ++ " " ++ shapeDescription ++ punctuation
+describe :: Graphic -> String
+describe (Graphic color shape) isCool = nameOf color ++ " " ++ shapeDescription
   where
-    punctuation = if isCool then "!" else ""
     shapeDescription = case shape of
         Circle radius -> "circle with a radius of " ++ show radius
         Rectangle height width -> show height ++ "x" ++ show width ++ " rectangle"
 ```
 
 ```bash
->>> describe tennisBall True
+>>> describe tennisBall
 "green circle with a radius of 12!"
->>> describe (Graphic Orange (Rectangle 3 7)) False
+>>> describe (Graphic Orange (Rectangle 3 7))
 "orange 3x7 rectangle"
 ```
 
@@ -152,6 +150,20 @@ pattern = expression
 > - Powerful type system
 
 ## Statically typed
+
+Lame
+
+```java
+boolean all(Predicate<A> pred, List<A> list)
+```
+
+## Statically typed
+
+Lame
+
+```java
+boolean all(Predicate<A> pred, List<A> list)
+```
 
 Higher-order polymorphism
 
@@ -191,6 +203,8 @@ list syntax
 > - Think table lookup
 > - Easy to test, reason about, and even prove the correctness of code
 > - Allows for heavy optimization
+> - ...
+> - Everything is immutable
 
 <!-- if compiles, runs -->
 
@@ -211,10 +225,13 @@ shared structure between data
 
 ## Lazy
 
-> - Thunks
 > - Possible because of purity
+> - Thunks
 
 ## Lazy
+
+- Possible because of purity
+- Thunks
 
 ```haskell
 zeros :: [Int]
@@ -222,6 +239,9 @@ zeros = 0 : zeros
 ```
 
 ## Lazy
+
+- Possible because of purity
+- Thunks
 
 ```haskell
 zeros :: [Int]
