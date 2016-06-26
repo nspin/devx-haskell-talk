@@ -1,15 +1,5 @@
 # Try Haskell!
 
-## Hello world.
-
-```bash
-> main = putStrLn "Hello World!"
-```
-> - What is the type of main?
-  ```bash
-  >> :type main
-  ```
-
 ## Challenges
 
 > - In `ghci`:
