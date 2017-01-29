@@ -288,17 +288,17 @@ fib <span class="fu">=</span> <span class="dv">1</span> <span class="fu">:</span
 <h1>Fun with laziness</h1>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">fib ::</span> [<span class="dt">Integer</span>]
 fib <span class="fu">=</span> <span class="dv">1</span> <span class="fu">:</span> <span class="dv">1</span> <span class="fu">:</span> zipWith (<span class="fu">+</span>) fib (tail fib)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">seive ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
-seive (p<span class="fu">:</span>xs) <span class="fu">=</span> p <span class="fu">:</span> seive [ x <span class="fu">|</span> x <span class="ot">&lt;-</span> xs, x <span class="ot">`mod`</span> p <span class="fu">/=</span> <span class="dv">0</span> ]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">sieve ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
+sieve (p<span class="fu">:</span>xs) <span class="fu">=</span> p <span class="fu">:</span> sieve [ x <span class="fu">|</span> x <span class="ot">&lt;-</span> xs, x <span class="ot">`mod`</span> p <span class="fu">/=</span> <span class="dv">0</span> ]</code></pre></div>
 </div><div id="fun-with-laziness-2" class="slide section level2">
 <h1>Fun with laziness</h1>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">fib ::</span> [<span class="dt">Integer</span>]
 fib <span class="fu">=</span> <span class="dv">1</span> <span class="fu">:</span> <span class="dv">1</span> <span class="fu">:</span> zipWith (<span class="fu">+</span>) fib (tail fib)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">seive ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
-seive (p<span class="fu">:</span>xs) <span class="fu">=</span> p <span class="fu">:</span> seive [ x <span class="fu">|</span> x <span class="ot">&lt;-</span> xs, x <span class="ot">`mod`</span> p <span class="fu">/=</span> <span class="dv">0</span> ]
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">sieve ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
+sieve (p<span class="fu">:</span>xs) <span class="fu">=</span> p <span class="fu">:</span> sieve [ x <span class="fu">|</span> x <span class="ot">&lt;-</span> xs, x <span class="ot">`mod`</span> p <span class="fu">/=</span> <span class="dv">0</span> ]
 
 <span class="ot">primes ::</span> [<span class="dt">Integer</span>]
-primes <span class="fu">=</span> seive [<span class="dv">2</span><span class="fu">..</span>]</code></pre></div>
+primes <span class="fu">=</span> sieve [<span class="dv">2</span><span class="fu">..</span>]</code></pre></div>
 </div>
 <div id="into-the-real-world" class="titleslide slide section level1"><h1>Into the real world</h1></div><div id="section" class="slide section level2 middle">
 <h1></h1>
@@ -328,8 +328,8 @@ randInt g <span class="fu">=</span> (r <span class="fu">.&amp;.</span> <span cla
 <h1>Explicit state</h1>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">Gen</span> <span class="ot">-&gt;</span> (a, <span class="dt">Gen</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randChar ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
-randChar g <span class="fu">=</span> (c, g&#39;)
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randLetter ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
+randLetter g <span class="fu">=</span> (c, g&#39;)
   <span class="kw">where</span>
     (i, g&#39;) <span class="fu">=</span> rand g
     c <span class="fu">=</span> chr (mod i <span class="dv">26</span> <span class="fu">+</span> ord <span class="ch">&#39;a&#39;</span>)</code></pre></div>
@@ -337,18 +337,18 @@ randChar g <span class="fu">=</span> (c, g&#39;)
 <h1>Explicit state</h1>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">Gen</span> <span class="ot">-&gt;</span> (a, <span class="dt">Gen</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
-<span class="ot">randChar ::</span> <span class="dt">Random</span> <span class="dt">Char</span></code></pre></div>
+<span class="ot">randLetter ::</span> <span class="dt">Random</span> <span class="dt">Char</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span>
 randPassword <span class="dv">0</span> g <span class="fu">=</span> ([]  , g  )
 randPassword n g <span class="fu">=</span> (c<span class="fu">:</span>cs, g&#39;&#39;)
   <span class="kw">where</span>
-    (c , g&#39; ) <span class="fu">=</span> randChar g
+    (c , g&#39; ) <span class="fu">=</span> randLetter g
     (cs, g&#39;&#39;) <span class="fu">=</span> randPassword (n <span class="fu">-</span> <span class="dv">1</span>) g&#39;</code></pre></div>
 </div><div id="explicit-state-4" class="slide section level2">
 <h1>Explicit state</h1>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">Gen</span> <span class="ot">-&gt;</span> (a, <span class="dt">Gen</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
-<span class="ot">randChar ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
+<span class="ot">randLetter ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
 <span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span></code></pre></div>
 </div><div id="the-real-world" class="slide section level2">
 <h1>The real world</h1>
@@ -404,17 +404,17 @@ print<span class="ot">   ::</span> <span class="dt">String</span> <span class="o
 
 <span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
 
-<span class="ot">randChar ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
-randChar g <span class="fu">=</span> (c, g&#39;)
+<span class="ot">randLetter ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
+randLetter g <span class="fu">=</span> (c, g&#39;)
   <span class="kw">where</span>
     (i, g&#39;) <span class="fu">=</span> rand g
-    c <span class="fu">=</span> chr (mod <span class="dv">26</span> i <span class="fu">+</span> ord <span class="ch">&#39;a&#39;</span>)
+    c <span class="fu">=</span> chr (mod i <span class="dv">26</span> <span class="fu">+</span> ord <span class="ch">&#39;a&#39;</span>)
 
 <span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span>
 randPassword <span class="dv">0</span> g <span class="fu">=</span> ([]  , g  )
 randPassword n g <span class="fu">=</span> (c<span class="fu">:</span>cs, g&#39;&#39;)
   <span class="kw">where</span>
-    (c , g&#39; ) <span class="fu">=</span> randChar g
+    (c , g&#39; ) <span class="fu">=</span> randLetter g
     (cs, g&#39;&#39;) <span class="fu">=</span> randPassword (n <span class="fu">-</span> <span class="dv">1</span>) g&#39;</code></pre></div>
 </div><div id="using-common-abstractions" class="slide section level2">
 <h1>Using common abstractions</h1>
@@ -425,12 +425,12 @@ randPassword n g <span class="fu">=</span> (c<span class="fu">:</span>cs, g&#39;
 
 <span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
 
-<span class="ot">randChar ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
-randChar <span class="fu">=</span> fmap toAlph randInt
-  <span class="kw">where</span> toAlph i <span class="fu">=</span> chr (mod <span class="dv">26</span> i <span class="fu">+</span> ord <span class="ch">&#39;a&#39;</span>)
+<span class="ot">randLetter ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
+randLetter <span class="fu">=</span> fmap toAlph randInt
+  <span class="kw">where</span> toAlph i <span class="fu">=</span> chr (mod i <span class="dv">26</span> <span class="fu">+</span> ord <span class="ch">&#39;a&#39;</span>)
 
 <span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span>
-randPassword n <span class="fu">=</span> replicateM n randChar
+randPassword n <span class="fu">=</span> replicateM n randLetter
 
 <span class="co">-- type State s a = s -&gt; (a, s)</span></code></pre></div>
 </div><div id="they-are-awesome" class="slide section level2">
@@ -459,7 +459,7 @@ randPassword n <span class="fu">=</span> replicateM n randChar
 <li>Old school: <a href="https://www.haskell.org/tutorial/">haskell.org/tutorial</a></li>
 <li>Free books: <a href="http://learnyouahaskell.com/chapters">Learn You a Haskell for Great Good</a>, <a href="http://pv.bstu.ru/flp/RealWorldHaskell.pdf">Real World Haskell</a></li>
 <li>The source: <a href="https://hackage.haskell.org/package/base"><code>base</code></a> (<code>Data.List</code>, <code>Data.Maybe</code>)</li>
-<li>Us</li>
+<li>Me</li>
 </ul>
 </div>
 <div id="questions" class="titleslide slide section level1"><h1>Questions</h1></div>

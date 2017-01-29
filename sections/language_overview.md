@@ -268,8 +268,8 @@ fib = 1 : 1 : zipWith (+) fib (tail fib)
 ```
 
 ```haskell
-seive :: [Integer] -> [Integer]
-seive (p:xs) = p : seive [ x | x <- xs, x `mod` p /= 0 ]
+sieve :: [Integer] -> [Integer]
+sieve (p:xs) = p : sieve [ x | x <- xs, x `mod` p /= 0 ]
 ```
 
 ## Fun with laziness
@@ -280,9 +280,9 @@ fib = 1 : 1 : zipWith (+) fib (tail fib)
 ```
 
 ```haskell
-seive :: [Integer] -> [Integer]
-seive (p:xs) = p : seive [ x | x <- xs, x `mod` p /= 0 ]
+sieve :: [Integer] -> [Integer]
+sieve (p:xs) = p : sieve [ x | x <- xs, x `mod` p /= 0 ]
 
 primes :: [Integer]
-primes = seive [2..]
+primes = sieve [2..]
 ```
