@@ -82,7 +82,7 @@ nameOf Yellow = "yellow"
 nameOf Green  = "green"
 
 describe :: Graphic -> String
-describe (Graphic color shape) isCool = nameOf color ++ " " ++ shapeDescription
+describe (Graphic color shape) = nameOf color ++ " " ++ shapeDescription
   where
     shapeDescription = case shape of
         Circle radius -> "circle with a radius of " ++ show radius
@@ -112,7 +112,7 @@ nameOf Yellow = "yellow"
 nameOf Green  = "green"
 
 describe :: Graphic -> String
-describe (Graphic color shape) isCool = nameOf color ++ " " ++ shapeDescription
+describe (Graphic color shape) = nameOf color ++ " " ++ shapeDescription
   where
     shapeDescription = case shape of
         Circle radius -> "circle with a radius of " ++ show radius
@@ -121,7 +121,7 @@ describe (Graphic color shape) isCool = nameOf color ++ " " ++ shapeDescription
 
 ```bash
 >>> describe tennisBall
-"green circle with a radius of 12!"
+"green circle with a radius of 12"
 >>> describe (Graphic Orange (Rectangle 3 7))
 "orange 3x7 rectangle"
 ```
@@ -251,4 +251,38 @@ zeros = 0 : zeros
 ```haskell
 mystery :: Shape
 mystery = Circle (1 / 0)
+```
+
+## Fun with laziness
+
+```haskell
+fib :: [Integer]
+fib = 1 : 1 : zipWith (+) fib (tail fib)
+```
+
+## Fun with laziness
+
+```haskell
+fib :: [Integer]
+fib = 1 : 1 : zipWith (+) fib (tail fib)
+```
+
+```haskell
+seive :: [Integer] -> [Integer]
+seive (p:xs) = p : seive [ x | x <- xs, x `mod` p /= 0 ]
+```
+
+## Fun with laziness
+
+```haskell
+fib :: [Integer]
+fib = 1 : 1 : zipWith (+) fib (tail fib)
+```
+
+```haskell
+seive :: [Integer] -> [Integer]
+seive (p:xs) = p : seive [ x | x <- xs, x `mod` p /= 0 ]
+
+primes :: [Integer]
+primes = seive [2..]
 ```

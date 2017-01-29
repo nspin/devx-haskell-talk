@@ -1,6 +1,11 @@
 with import <nixpkgs> {}; stdenv.mkDerivation {
   name = "env";
-  buildInputs = [
-    haskellPackages.pandoc
+  buildInputs = with haskellPackages; [
+    pandoc
+    (ghcWithPackages (hp: [
+      async
+      attoparsec
+      wreq
+    ]))
   ];
 }

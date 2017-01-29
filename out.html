@@ -6,9 +6,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="Kathy Chen" />
   <meta name="author" content="Nick Spinale" />
-  <meta name="date" content="2016-06-26" />
   <title>Functional Programming in Haskell</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -59,26 +57,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="slide titlepage">
   <h1 class="title">Functional Programming in Haskell</h1>
   <p class="author">
-Kathy Chen<br/>Nick Spinale
+Nick Spinale
   </p>
-  <p class="date">June 26, 2016</p>
+  <p class="date">February 1, 2017</p>
 </div>
 <div id="plan" class="slide section level2">
 <h1>Plan</h1>
 <ul class="incremental">
 <li>Development of Haskell</li>
 <li>Language overview</li>
-<li>We do some Haskell</li>
 <li>Using it to do real things</li>
 <li>Abstractions</li>
-</ul>
-</div>
-<div id="first-step" class="slide section level2">
-<h1>First step</h1>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">&gt;</span> <span class="kw">main</span> = putStrLn <span class="st">&quot;Hello World!&quot;</span></code></pre></div>
-<ul class="incremental">
-<li><p>What is the type of main?</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">&gt;</span> :<span class="kw">type</span> main</code></pre></div></li>
 </ul>
 </div>
 <div id="history" class="titleslide slide section level1"><h1>History</h1></div><div id="real-world" class="slide section level2">
@@ -160,7 +149,7 @@ nameOf <span class="dt">Yellow</span> <span class="fu">=</span> <span class="st"
 nameOf <span class="dt">Green</span>  <span class="fu">=</span> <span class="st">&quot;green&quot;</span>
 
 <span class="ot">describe ::</span> <span class="dt">Graphic</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
-describe (<span class="dt">Graphic</span> color shape) isCool <span class="fu">=</span> nameOf color <span class="fu">++</span> <span class="st">&quot; &quot;</span> <span class="fu">++</span> shapeDescription
+describe (<span class="dt">Graphic</span> color shape) <span class="fu">=</span> nameOf color <span class="fu">++</span> <span class="st">&quot; &quot;</span> <span class="fu">++</span> shapeDescription
   <span class="kw">where</span>
     shapeDescription <span class="fu">=</span> <span class="kw">case</span> shape <span class="kw">of</span>
         <span class="dt">Circle</span> radius <span class="ot">-&gt;</span> <span class="st">&quot;circle with a radius of &quot;</span> <span class="fu">++</span> show radius
@@ -181,14 +170,14 @@ nameOf <span class="dt">Yellow</span> <span class="fu">=</span> <span class="st"
 nameOf <span class="dt">Green</span>  <span class="fu">=</span> <span class="st">&quot;green&quot;</span>
 
 <span class="ot">describe ::</span> <span class="dt">Graphic</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
-describe (<span class="dt">Graphic</span> color shape) isCool <span class="fu">=</span> nameOf color <span class="fu">++</span> <span class="st">&quot; &quot;</span> <span class="fu">++</span> shapeDescription
+describe (<span class="dt">Graphic</span> color shape) <span class="fu">=</span> nameOf color <span class="fu">++</span> <span class="st">&quot; &quot;</span> <span class="fu">++</span> shapeDescription
   <span class="kw">where</span>
     shapeDescription <span class="fu">=</span> <span class="kw">case</span> shape <span class="kw">of</span>
         <span class="dt">Circle</span> radius <span class="ot">-&gt;</span> <span class="st">&quot;circle with a radius of &quot;</span> <span class="fu">++</span> show radius
         <span class="dt">Rectangle</span> height width <span class="ot">-&gt;</span> show height <span class="fu">++</span> <span class="st">&quot;x&quot;</span> <span class="fu">++</span> show width <span class="fu">++</span> <span class="st">&quot; rectangle&quot;</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">&gt;&gt;&gt;</span> <span class="kw">describe</span> tennisBall
-<span class="st">&quot;green circle with a radius of 12!&quot;</span>
-<span class="kw">&gt;&gt;&gt;</span> <span class="kw">describe</span> (Graphic Orange (Rectangle 3 7))
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="op">&gt;&gt;&gt;</span> <span class="ex">describe</span> tennisBall
+<span class="st">&quot;green circle with a radius of 12&quot;</span>
+<span class="op">&gt;&gt;&gt;</span> <span class="ex">describe</span> (Graphic Orange (Rectangle 3 7))
 <span class="st">&quot;orange 3x7 rectangle&quot;</span></code></pre></div>
 </div><div id="properties" class="slide section level2">
 <h1>Properties</h1>
@@ -217,11 +206,11 @@ pattern = expression
 </div><div id="statically-typed-1" class="slide section level2">
 <h1>Statically typed</h1>
 <p>Lame</p>
-<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">boolean</span> <span class="fu">all</span>(Predicate&lt;A&gt; pred, List&lt;A&gt; list)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">boolean</span> <span class="fu">all</span>(<span class="bu">Predicate</span>&lt;A&gt; pred, <span class="bu">List</span>&lt;A&gt; list)</code></pre></div>
 </div><div id="statically-typed-2" class="slide section level2">
 <h1>Statically typed</h1>
 <p>Lame</p>
-<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">boolean</span> <span class="fu">all</span>(Predicate&lt;A&gt; pred, List&lt;A&gt; list)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="dt">boolean</span> <span class="fu">all</span>(<span class="bu">Predicate</span>&lt;A&gt; pred, <span class="bu">List</span>&lt;A&gt; list)</code></pre></div>
 <p>Higher-order polymorphism</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">all<span class="ot"> ::</span> <span class="dt">Foldable</span> t <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
 <!--
@@ -291,32 +280,33 @@ zeros <span class="fu">=</span> <span class="dv">0</span> <span class="fu">:</sp
 zeros <span class="fu">=</span> <span class="dv">0</span> <span class="fu">:</span> zeros</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mystery ::</span> <span class="dt">Shape</span>
 mystery <span class="fu">=</span> <span class="dt">Circle</span> (<span class="dv">1</span> <span class="fu">/</span> <span class="dv">0</span>)</code></pre></div>
+</div><div id="fun-with-laziness" class="slide section level2">
+<h1>Fun with laziness</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">fib ::</span> [<span class="dt">Integer</span>]
+fib <span class="fu">=</span> <span class="dv">1</span> <span class="fu">:</span> <span class="dv">1</span> <span class="fu">:</span> zipWith (<span class="fu">+</span>) fib (tail fib)</code></pre></div>
+</div><div id="fun-with-laziness-1" class="slide section level2">
+<h1>Fun with laziness</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">fib ::</span> [<span class="dt">Integer</span>]
+fib <span class="fu">=</span> <span class="dv">1</span> <span class="fu">:</span> <span class="dv">1</span> <span class="fu">:</span> zipWith (<span class="fu">+</span>) fib (tail fib)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">seive ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
+seive (p<span class="fu">:</span>xs) <span class="fu">=</span> p <span class="fu">:</span> seive [ x <span class="fu">|</span> x <span class="ot">&lt;-</span> xs, x <span class="ot">`mod`</span> p <span class="fu">/=</span> <span class="dv">0</span> ]</code></pre></div>
+</div><div id="fun-with-laziness-2" class="slide section level2">
+<h1>Fun with laziness</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">fib ::</span> [<span class="dt">Integer</span>]
+fib <span class="fu">=</span> <span class="dv">1</span> <span class="fu">:</span> <span class="dv">1</span> <span class="fu">:</span> zipWith (<span class="fu">+</span>) fib (tail fib)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">seive ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
+seive (p<span class="fu">:</span>xs) <span class="fu">=</span> p <span class="fu">:</span> seive [ x <span class="fu">|</span> x <span class="ot">&lt;-</span> xs, x <span class="ot">`mod`</span> p <span class="fu">/=</span> <span class="dv">0</span> ]
+
+<span class="ot">primes ::</span> [<span class="dt">Integer</span>]
+primes <span class="fu">=</span> seive [<span class="dv">2</span><span class="fu">..</span>]</code></pre></div>
 </div>
-<div id="try-haskell" class="titleslide slide section level1"><h1>Try Haskell!</h1></div><div id="challenges" class="slide section level2">
-<h1>Challenges</h1>
-<ul class="incremental">
-<li><p>In <code>ghci</code>:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">&gt;</span> :<span class="kw">load</span> Main.hs</code></pre></div></li>
-<li><p>Run all tests:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">&gt;</span> <span class="kw">main</span></code></pre></div></li>
-<li><p>Use</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">&gt;</span> <span class="kw">runTestTT</span> -testname-</code></pre></div>
-<p>to run individual tests.</p></li>
-</ul>
-</div><div id="section" class="slide section level2 middle">
-<h1></h1>
-<p>(Section 1 exercises)</p>
-</div><div id="section-1" class="slide section level2 middle">
-<h1></h1>
-<p>(Section 2 exercises)</p>
-</div>
-<div id="into-the-real-world" class="titleslide slide section level1"><h1>Into the real world</h1></div><div id="section-2" class="slide section level2 middle">
+<div id="into-the-real-world" class="titleslide slide section level1"><h1>Into the real world</h1></div><div id="section" class="slide section level2 middle">
 <h1></h1>
 <p>What is a program without effects?</p>
 </div><div id="implicit-state" class="slide section level2">
 <h1>Implicit state</h1>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> make_password(<span class="dt">int</span> n, <span class="dt">char</span> *buf) {
-    <span class="kw">while</span> (n-- &gt; <span class="dv">0</span>) {
+    <span class="cf">while</span> (n-- &gt; <span class="dv">0</span>) {
         buf[n] = &#39;a&#39; + rand() % <span class="dv">26</span>;
     }
 }</code></pre></div>
@@ -458,7 +448,7 @@ randPassword n <span class="fu">=</span> replicateM n randChar
 <ul class="incremental">
 <li>Haskell <code>typeclass</code></li>
 </ul>
-</div><div id="section-3" class="slide section level2 middle">
+</div><div id="section-1" class="slide section level2 middle">
 <h1></h1>
 <p><em>One</em> of them is called <code>Monad</code></p>
 </div>

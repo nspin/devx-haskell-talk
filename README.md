@@ -1,4 +1,4 @@
-# hackny2016-haskell-workshop
+# devx-haskell-talk
 
 To build, run `./build`
 

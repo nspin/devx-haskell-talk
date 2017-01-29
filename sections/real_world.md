@@ -48,8 +48,8 @@ randInt :: Random Int
 ```
 
 ```haskell
-randChar :: Random Char
-randChar g = (c, g')
+randLetter :: Random Char
+randLetter g = (c, g')
   where
     (i, g') = rand g
     c = chr (mod i 26 + ord 'a')
@@ -63,7 +63,7 @@ type Random a = Gen -> (a, Gen)
 
 ```haskell
 randInt :: Random Int
-randChar :: Random Char
+randLetter :: Random Char
 ```
 
 ```haskell
@@ -71,7 +71,7 @@ randPassword :: Int -> Random String
 randPassword 0 g = ([]  , g  )
 randPassword n g = (c:cs, g'')
   where
-    (c , g' ) = randChar g
+    (c , g' ) = randLetter g
     (cs, g'') = randPassword (n - 1) g'
 ```
 
@@ -83,7 +83,7 @@ type Random a = Gen -> (a, Gen)
 
 ```haskell
 randInt :: Random Int
-randChar :: Random Char
+randLetter :: Random Char
 randPassword :: Int -> Random String
 ```
 
