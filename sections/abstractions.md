@@ -38,6 +38,10 @@ class Eq a where
     (==) :: a -> a -> Bool
 ```
 
+```haskell
+data Integer =  ... | -1 | 0 | 1 | ...
+```
+
 ## Typeclasses
 
 ```haskell
