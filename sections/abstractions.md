@@ -116,6 +116,54 @@ class Foldable t where
 ```
 
 ```haskell
+instance Foldable [] where
+    foldMap _ [] = mempty
+    foldMap f (x:xs) = f x <> foldMap f xs
+```
+
+## Typeclasses
+
+```haskell
+class Monoid m where
+    (<>) :: a -> a -> a
+    mempty :: a
+```
+
+```haskell
+class Foldable t where
+    foldMap :: Monoid m => (a -> m) -> t a -> m
+```
+
+```haskell
+instance Foldable [] where
+    foldMap _ [] = mempty
+    foldMap f (x:xs) = f x <> foldMap f xs
+```
+
+```haskell
+data Tree a = Leaf | Branch a (Tree a) (Tree a)
+```
+
+```haskell
+instance Foldable Tree where
+    foldMap _ Leaf = mempty
+    foldMap f (Branch x left right) = foldMap f left <> f x <> foldMap f right
+```
+
+## Typeclasses
+
+```haskell
+class Monoid m where
+    (<>) :: a -> a -> a
+    mempty :: a
+```
+
+```haskell
+class Foldable t where
+    foldMap :: Monoid m => (a -> m) -> t a -> m
+```
+
+```haskell
 elem :: (Foldable t, Eq a) => a -> t a -> Bool
 ```
 
@@ -264,7 +312,7 @@ instance Functor Random where
     (fmap f r) g = let (a, g') = r in (f a, g')
 
 instance Monad Random where
-    (r >>= f)  g = let (a, g' ) = r g in f a
+    (r >>=  f) g = let (a, g') = r g in (f a) g'
     (return a) g = (a, g)
 
 randInt :: Random Int
