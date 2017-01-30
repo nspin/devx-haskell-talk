@@ -1,9 +1,7 @@
-import Control.Concurrent.Async
-import Network.Wreq
-import Control.Monad.Trans.State
 import Control.Monad
-import Data.Char
+import Control.Monad.Trans.State
 import Data.Bits
+import Data.Char
 
 
 -- Laziness
