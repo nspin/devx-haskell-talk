@@ -64,7 +64,7 @@ Nick Spinale
 <div id="plan" class="slide section level2">
 <h1>Plan</h1>
 <ul class="incremental">
-<li>Development of Haskell</li>
+<li>History</li>
 <li>Language overview</li>
 <li>Using it to do real things</li>
 <li>Abstractions</li>
@@ -350,6 +350,36 @@ randPassword n g <span class="fu">=</span> (c<span class="fu">:</span>cs, g&#39;
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
 <span class="ot">randLetter ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
 <span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span></code></pre></div>
+</div><div id="monad-preview-bad" class="slide section level2">
+<h1>Monad preview: bad</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">Gen</span> <span class="ot">-&gt;</span> (a, <span class="dt">Gen</span>)
+
+<span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
+
+<span class="ot">randLetter ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
+randLetter g <span class="fu">=</span> (c, g&#39;)
+  <span class="kw">where</span>
+    (i, g&#39;) <span class="fu">=</span> rand g
+    c <span class="fu">=</span> chr (mod i <span class="dv">26</span> <span class="fu">+</span> ord <span class="ch">&#39;a&#39;</span>)
+
+<span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span>
+randPassword <span class="dv">0</span> g <span class="fu">=</span> ([]  , g  )
+randPassword n g <span class="fu">=</span> (c<span class="fu">:</span>cs, g&#39;&#39;)
+  <span class="kw">where</span>
+    (c , g&#39; ) <span class="fu">=</span> randLetter g
+    (cs, g&#39;&#39;) <span class="fu">=</span> randPassword (n <span class="fu">-</span> <span class="dv">1</span>) g&#39;</code></pre></div>
+</div><div id="monad-preview-good" class="slide section level2">
+<h1>Monad preview: good</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">State</span> <span class="dt">Gen</span> a
+
+<span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
+
+<span class="ot">randLetter ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
+randLetter <span class="fu">=</span> fmap toAlph randInt
+  <span class="kw">where</span> toAlph i <span class="fu">=</span> chr (mod i <span class="dv">26</span> <span class="fu">+</span> ord <span class="ch">&#39;a&#39;</span>)
+
+<span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span>
+randPassword n <span class="fu">=</span> replicateM n randLetter</code></pre></div>
 </div><div id="the-real-world" class="slide section level2">
 <h1>The real world</h1>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Universe</span></code></pre></div>
@@ -398,8 +428,143 @@ putStrLn<span class="ot"> ::</span> <span class="dt">String</span> <span class="
 getChar<span class="ot"> ::</span> <span class="dt">IO</span> <span class="dt">Char</span>
 print<span class="ot">   ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre></div>
 </div>
-<div id="abstractions" class="titleslide slide section level1"><h1>Abstractions</h1></div><div id="manually-threading-explicit-state" class="slide section level2">
-<h1>Manually threading explicit state</h1>
+<div id="abstractions" class="titleslide slide section level1"><h1>Abstractions</h1></div><div id="this-is-not-new" class="slide section level2">
+<h1>This is not new</h1>
+<p>There are patterns common accross many different types</p>
+</div><div id="this-is-not-new-1" class="slide section level2">
+<h1>This is not new</h1>
+<p>There are patterns common accross many different types</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> <span class="bu">Integer</span> <span class="kw">implements</span> <span class="bu">Comparable</span>&lt;<span class="bu">Integer</span>&gt;
+<span class="kw">class</span> <span class="bu">Float</span> <span class="kw">implements</span> <span class="bu">Comparable</span>&lt;<span class="bu">Float</span>&gt;
+<span class="kw">class</span> <span class="bu">Time</span> <span class="kw">implements</span> <span class="bu">Comparable</span>&lt;<span class="bu">Time</span>&gt;</code></pre></div>
+</div><div id="we-are-not-afraid" class="slide section level2">
+<h1>We are not afraid</h1>
+<ul class="incremental">
+<li>Java/C# <code>interface</code></li>
+<li>C++ <code>virtual</code></li>
+<li>Scala <code>implicits</code></li>
+</ul>
+<p>More powerful type system allows for more powerful abstractions</p>
+<ul class="incremental">
+<li>Haskell <code>typeclass</code></li>
+</ul>
+</div><div id="typeclasses" class="slide section level2">
+<h1>Typeclasses</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Eq</span> a <span class="kw">where</span>
+<span class="ot">    (==) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
+</div><div id="typeclasses-1" class="slide section level2">
+<h1>Typeclasses</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Eq</span> a <span class="kw">where</span>
+<span class="ot">    (==) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
+</div><div id="typeclasses-2" class="slide section level2">
+<h1>Typeclasses</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Eq</span> a <span class="kw">where</span>
+<span class="ot">    (==) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Integer</span> <span class="fu">=</span>  <span class="fu">...</span> <span class="fu">|</span> <span class="fu">-</span><span class="dv">1</span> <span class="fu">|</span> <span class="dv">0</span> <span class="fu">|</span> <span class="dv">1</span> <span class="fu">|</span> <span class="fu">...</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">Integer</span> <span class="kw">where</span>
+    <span class="fu">...</span>
+    <span class="dv">1</span> <span class="fu">==</span>  <span class="dv">1</span> <span class="fu">=</span> <span class="dt">True</span>
+    <span class="dv">0</span> <span class="fu">==</span>  <span class="dv">0</span> <span class="fu">=</span> <span class="dt">True</span>
+   <span class="fu">-</span><span class="dv">1</span> <span class="fu">==</span> <span class="fu">-</span><span class="dv">1</span> <span class="fu">=</span> <span class="dt">True</span>
+    <span class="fu">...</span>
+    _ <span class="fu">==</span>  _ <span class="fu">=</span> <span class="dt">False</span></code></pre></div>
+</div><div id="typeclasses-3" class="slide section level2">
+<h1>Typeclasses</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Eq</span> a <span class="kw">where</span>
+<span class="ot">    (==) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Eq</span> a <span class="ot">=&gt;</span> <span class="dt">Eq</span> [a] <span class="kw">where</span>
+    [] <span class="fu">==</span> [] <span class="fu">=</span> <span class="dt">True</span>
+    (x<span class="fu">:</span>xs) <span class="fu">==</span> (y<span class="fu">:</span>ys) <span class="fu">=</span> x <span class="fu">==</span> y <span class="fu">&amp;&amp;</span> ys <span class="fu">==</span> ys</code></pre></div>
+</div><div id="typeclasses-4" class="slide section level2">
+<h1>Typeclasses</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Eq</span> a <span class="kw">where</span>
+<span class="ot">    (==) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Eq</span> a <span class="ot">=&gt;</span> <span class="dt">Eq</span> [a] <span class="kw">where</span>
+    [] <span class="fu">==</span> [] <span class="fu">=</span> <span class="dt">True</span>
+    (x<span class="fu">:</span>xs) <span class="fu">==</span> (y<span class="fu">:</span>ys) <span class="fu">=</span> x <span class="fu">==</span> y <span class="fu">&amp;&amp;</span> ys <span class="fu">==</span> ys</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">elem<span class="ot"> ::</span> <span class="dt">Eq</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
+</div><div id="typeclasses-5" class="slide section level2">
+<h1>Typeclasses</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Monoid</span> m <span class="kw">where</span>
+<span class="ot">    (&lt;&gt;) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
+<span class="ot">    mempty ::</span> a</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Foldable</span> t <span class="kw">where</span>
+<span class="ot">    foldMap ::</span> <span class="dt">Monoid</span> m <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m) <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> m</code></pre></div>
+</div><div id="typeclasses-6" class="slide section level2">
+<h1>Typeclasses</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Monoid</span> m <span class="kw">where</span>
+<span class="ot">    (&lt;&gt;) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
+<span class="ot">    mempty ::</span> a</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Foldable</span> t <span class="kw">where</span>
+<span class="ot">    foldMap ::</span> <span class="dt">Monoid</span> m <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m) <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> m</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">elem<span class="ot"> ::</span> (<span class="dt">Foldable</span> t, <span class="dt">Eq</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
+</div><div id="section-1" class="slide section level2 middle">
+<h1></h1>
+<p>One especially useful typeclass is called <code>Monad</code></p>
+</div><div id="functor" class="slide section level2">
+<h1>Functor</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> m <span class="kw">where</span>
+<span class="ot">    fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> m a <span class="ot">-&gt;</span> m b</code></pre></div>
+</div><div id="functor-1" class="slide section level2">
+<h1>Functor</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> m <span class="kw">where</span>
+<span class="ot">    fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> m a <span class="ot">-&gt;</span> m b</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Maybe</span> a <span class="fu">=</span> <span class="dt">Nothing</span> <span class="fu">|</span> <span class="dt">Just</span> a</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Maybe</span> <span class="kw">where</span>
+    fmap _ <span class="dt">Nothing</span> <span class="fu">=</span> <span class="dt">Nothing</span>
+    fmap f (<span class="dt">Just</span> a) <span class="fu">=</span> <span class="dt">Just</span> (f a)</code></pre></div>
+</div><div id="functor-2" class="slide section level2">
+<h1>Functor</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> m <span class="kw">where</span>
+<span class="ot">    fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> m a <span class="ot">-&gt;</span> m b</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Maybe</span> a <span class="fu">=</span> <span class="dt">Nothing</span> <span class="fu">|</span> <span class="dt">Just</span> a</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Maybe</span> <span class="kw">where</span>
+    fmap _ <span class="dt">Nothing</span> <span class="fu">=</span> <span class="dt">Nothing</span>
+    fmap f (<span class="dt">Just</span> a) <span class="fu">=</span> <span class="dt">Just</span> (f a)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Functor</span> [a] <span class="kw">where</span>
+    fmap _ [] <span class="fu">=</span> []
+    fmap f (x<span class="fu">:</span>xs) <span class="fu">=</span> f x <span class="fu">:</span> fmap f xs</code></pre></div>
+</div><div id="monad" class="slide section level2">
+<h1>Monad</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> m <span class="ot">=&gt;</span> <span class="dt">Monad</span> m <span class="kw">where</span>
+<span class="ot">    (&gt;&gt;=) ::</span> m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b
+<span class="ot">    return ::</span> a <span class="ot">-&gt;</span> m a</code></pre></div>
+</div><div id="monad-1" class="slide section level2">
+<h1>Monad</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> m <span class="ot">=&gt;</span> <span class="dt">Monad</span> m <span class="kw">where</span>
+<span class="ot">    (&gt;&gt;=) ::</span> m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b
+<span class="ot">    return ::</span> a <span class="ot">-&gt;</span> m a</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Monad</span> (<span class="dt">Maybe</span> a) <span class="kw">where</span>
+    <span class="dt">Nothing</span> <span class="fu">&gt;&gt;=</span> _ <span class="fu">=</span> <span class="dt">Nothing</span>
+    <span class="dt">Just</span> x <span class="fu">&gt;&gt;=</span> f <span class="fu">=</span> f x
+    return <span class="fu">=</span> <span class="dt">Just</span></code></pre></div>
+</div><div id="monad-2" class="slide section level2">
+<h1>Monad</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> m <span class="ot">=&gt;</span> <span class="dt">Monad</span> m <span class="kw">where</span>
+<span class="ot">    (&gt;&gt;=) ::</span> m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b
+<span class="ot">    return ::</span> a <span class="ot">-&gt;</span> m a</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Monad</span> (<span class="dt">Maybe</span> a) <span class="kw">where</span>
+    <span class="dt">Nothing</span> <span class="fu">&gt;&gt;=</span> _ <span class="fu">=</span> <span class="dt">Nothing</span>
+    <span class="dt">Just</span> x <span class="fu">&gt;&gt;=</span> f <span class="fu">=</span> f x
+    return <span class="fu">=</span> <span class="dt">Just</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Monad</span> [a] <span class="kw">where</span>
+    [] <span class="fu">&gt;&gt;=</span> _ <span class="fu">=</span> []
+    (x<span class="fu">:</span>xs) <span class="fu">&gt;&gt;=</span> f <span class="fu">=</span> f x <span class="fu">++</span> (xs <span class="fu">&gt;&gt;=</span> f)
+    return x <span class="fu">=</span> [x]</code></pre></div>
+</div><div id="more-monads" class="slide section level2">
+<h1>More monads</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Monad</span> <span class="dt">IO</span>
+<span class="kw">instance</span> <span class="dt">Monad</span> ((<span class="ot">-&gt;</span>) r)
+<span class="kw">instance</span> <span class="dt">Monoid</span> a <span class="ot">=&gt;</span> <span class="dt">Monad</span> ((,) a)</code></pre></div>
+</div><div id="more-monads-1" class="slide section level2">
+<h1>More monads</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Monad</span> <span class="dt">IO</span>
+<span class="kw">instance</span> <span class="dt">Monad</span> ((<span class="ot">-&gt;</span>) r)
+<span class="kw">instance</span> <span class="dt">Monoid</span> a <span class="ot">=&gt;</span> <span class="dt">Monad</span> ((,) a)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">f ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+f <span class="fu">=</span> liftA2 (<span class="fu">&amp;&amp;</span>) (<span class="fu">&lt;</span> <span class="dv">10</span>) (<span class="fu">/=</span> <span class="dv">4</span>)</code></pre></div>
+</div><div id="bad-manually-threading-explicit-state" class="slide section level2">
+<h1>Bad: manually threading explicit state</h1>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">Gen</span> <span class="ot">-&gt;</span> (a, <span class="dt">Gen</span>)
 
 <span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
@@ -416,12 +581,14 @@ randPassword n g <span class="fu">=</span> (c<span class="fu">:</span>cs, g&#39;
   <span class="kw">where</span>
     (c , g&#39; ) <span class="fu">=</span> randLetter g
     (cs, g&#39;&#39;) <span class="fu">=</span> randPassword (n <span class="fu">-</span> <span class="dv">1</span>) g&#39;</code></pre></div>
-</div><div id="using-common-abstractions" class="slide section level2">
-<h1>Using common abstractions</h1>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Monad</span> (fmap, replicateM)
-<span class="kw">import </span><span class="dt">Control.Monad.State.Lazy</span> (<span class="dt">State</span>)
+</div><div id="good-using-monad" class="slide section level2">
+<h1>Good: using Monad</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Random</span> <span class="kw">where</span>
+    (fmap f r) g <span class="fu">=</span> <span class="kw">let</span> (a, g&#39;) <span class="fu">=</span> r <span class="kw">in</span> (f a, g&#39;)
 
-<span class="kw">type</span> <span class="dt">Random</span> a <span class="fu">=</span> <span class="dt">State</span> <span class="dt">Gen</span> a
+<span class="kw">instance</span> <span class="dt">Monad</span> <span class="dt">Random</span> <span class="kw">where</span>
+    (r <span class="fu">&gt;&gt;=</span> f)  g <span class="fu">=</span> <span class="kw">let</span> (a, g&#39; ) <span class="fu">=</span> r g <span class="kw">in</span> f a
+    (return a) g <span class="fu">=</span> (a, g)
 
 <span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
 
@@ -430,34 +597,30 @@ randLetter <span class="fu">=</span> fmap toAlph randInt
   <span class="kw">where</span> toAlph i <span class="fu">=</span> chr (mod i <span class="dv">26</span> <span class="fu">+</span> ord <span class="ch">&#39;a&#39;</span>)
 
 <span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span>
-randPassword n <span class="fu">=</span> replicateM n randLetter
+randPassword n <span class="fu">=</span> replicateM n randLetter</code></pre></div>
+</div><div id="event-better-using-the-state-monad" class="slide section level2">
+<h1>Event better: using the State Monad</h1>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Monad.Trans.State</span> (<span class="dt">State</span>)
 
-<span class="co">-- type State s a = s -&gt; (a, s)</span></code></pre></div>
-</div><div id="they-are-awesome" class="slide section level2">
-<h1>They are awesome</h1>
-<!-- TODO intriguing but tame example (e.g. using forall a. Applicative ((->) a)) -->
-</div><div id="they-are-not-that-special" class="slide section level2">
-<h1>They are not <em>that</em> special</h1>
-<p>You are familiar with this concept</p>
-<ul class="incremental">
-<li>Java/C# <code>interface</code></li>
-<li>C++ <code>virtual</code></li>
-<li>Scala <code>implicits</code></li>
-</ul>
-<p>More powerful type system allows for more powerful abstractions</p>
-<ul class="incremental">
-<li>Haskell <code>typeclass</code></li>
-</ul>
-</div><div id="section-1" class="slide section level2 middle">
-<h1></h1>
-<p><em>One</em> of them is called <code>Monad</code></p>
+<span class="co">-- type State s a = s -&gt; (a, s)</span>
+
+<span class="kw">type</span> <span class="dt">Random</span> <span class="fu">=</span> <span class="dt">State</span> <span class="dt">Gen</span>
+
+<span class="ot">randInt ::</span> <span class="dt">Random</span> <span class="dt">Int</span>
+
+<span class="ot">randLetter ::</span> <span class="dt">Random</span> <span class="dt">Char</span>
+randLetter <span class="fu">=</span> fmap toAlph randInt
+  <span class="kw">where</span> toAlph i <span class="fu">=</span> chr (mod i <span class="dv">26</span> <span class="fu">+</span> ord <span class="ch">&#39;a&#39;</span>)
+
+<span class="ot">randPassword ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Random</span> <span class="dt">String</span>
+randPassword n <span class="fu">=</span> replicateM n randLetter</code></pre></div>
 </div>
 <div id="moving-forward" class="titleslide slide section level1"><h1>Moving forward</h1></div><div id="where-to-look" class="slide section level2">
 <h1>Where to look</h1>
 <ul class="incremental">
-<li>Course material: <a href="http://www.seas.upenn.edu/~cis552/schedule.html">UPenn cis552</a></li>
 <li>Old school: <a href="https://www.haskell.org/tutorial/">haskell.org/tutorial</a></li>
 <li>Free books: <a href="http://learnyouahaskell.com/chapters">Learn You a Haskell for Great Good</a>, <a href="http://pv.bstu.ru/flp/RealWorldHaskell.pdf">Real World Haskell</a></li>
+<li>Course material: <a href="http://www.seas.upenn.edu/~cis552/schedule.html">UPenn cis552</a></li>
 <li>The source: <a href="https://hackage.haskell.org/package/base"><code>base</code></a> (<code>Data.List</code>, <code>Data.Maybe</code>)</li>
 <li>Me</li>
 </ul>

@@ -87,6 +87,42 @@ randLetter :: Random Char
 randPassword :: Int -> Random String
 ```
 
+## Monad preview: bad
+
+```haskell
+type Random a = Gen -> (a, Gen)
+
+randInt :: Random Int
+
+randLetter :: Random Char
+randLetter g = (c, g')
+  where
+    (i, g') = rand g
+    c = chr (mod i 26 + ord 'a')
+
+randPassword :: Int -> Random String
+randPassword 0 g = ([]  , g  )
+randPassword n g = (c:cs, g'')
+  where
+    (c , g' ) = randLetter g
+    (cs, g'') = randPassword (n - 1) g'
+```
+
+## Monad preview: good
+
+```haskell
+type Random a = State Gen a
+
+randInt :: Random Int
+
+randLetter :: Random Char
+randLetter = fmap toAlph randInt
+  where toAlph i = chr (mod i 26 + ord 'a')
+
+randPassword :: Int -> Random String
+randPassword n = replicateM n randLetter
+```
+
 ## The real world
 
 ```haskell

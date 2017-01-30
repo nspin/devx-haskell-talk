@@ -1,6 +1,6 @@
 ## Plan
 
-> - Development of Haskell
+> - History
 > - Language overview
 > - Using it to do real things
 > - Abstractions
